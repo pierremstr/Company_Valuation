@@ -38,7 +38,7 @@ def cleaner(info):
 def vectorize(df, vectorizer='tfidf', context=2, max_df=0.85, min_df=0.05):
     df_copy = df.copy()
     # Clean language columns
-    df_copy['clean_info'] = df_copy['description'].apply(clean_info)
+    df_copy['clean_info'] = df_copy['description'].apply(cleaner)
     # Vectorize
     if vectorizer == 'count':
         vectorizer = CountVectorizer(ngram_range=(1,context), max_df=max_df, min_df=min_df)

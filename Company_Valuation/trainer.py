@@ -9,6 +9,7 @@ class Trainer():
         pass
 
     def train(self, model, scaler,  nlp=True, remove_features=[]):
+        # Split cols for column transformer
         num_cols = ['returnOnCapitalEmployed','ebitda','grossProfit', 'growth_rate', 'ebitda_margin']
         cat_cols = ['sector', 'country']
         for feature in remove_features:
@@ -23,7 +24,8 @@ class Trainer():
             df.drop(columns=['description'], inplace=True)
         else:
             df = vectorize(df)
-            cat_cols = ['sector_x', 'country_y']
+        # Drop removed features
+        df = df.drop(columns=remove_features)
         # hold out
         X_train, X_test, y_train, y_test = holdout(df)
         # Make pipe

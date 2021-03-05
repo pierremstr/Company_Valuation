@@ -5,13 +5,27 @@ from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfe
 
 def get_data():
     mydir = os.path.abspath(os.path.dirname(__file__))
-    data_path = os.path.join(mydir, 'clean_data', 'clean_clean_data.csv')
-    df = pd.read_csv(data_path, index_col=0)
-    df = df.drop(columns=['symbol', 'size'])
-
+    data_path = os.path.join(mydir,'clean_data', 'clean_clean_data.csv')
+    df =  pd.read_csv(data_path, index_col=0)
+    df = df.drop(columns=["size","symbol"])
     return df
 
 def clean_data(df):
+    sector_map = {'Industrials': 'Industrials', 'Technology': 'Information Technology', 'Consumer Cyclical': 'Consumer',
+              'Energy': 'Energy', 'Healthcare': 'Healthcare', 'Basic Materials': 'Materials', 'Utilities': 'Utilities',
+              'Consumer Defensive': 'Consumer', 'Communication Services': 'Communication Services', 'Metals & Mining': 'Materials',
+              'Chemicals': 'Industrials', 'Construction': 'Industrials', 'Textiles, Apparel & Luxury Goods': 'Consumer',
+              'Machinery': 'Industrials', 'Electrical Equipment': 'Industrials', 'Media': 'Communication Services',
+              'Food Products': 'Consumer', 'Auto Components': 'Industrials', 'Pharmaceuticals': 'Healthcare',
+              'Retail': 'Consumer', 'Hotels, Restaurants & Leisure': 'Consumer', 'Consumer products': 'Consumer',
+              'Commercial Services & Supplies': 'Materials', 'Trading Companies & Distributors': 'Communication Services',
+              'Telecommunication':'Communication Services','Paper & Forest': 'Materials','Industrial Conglomerates': 'Industrials',
+              'Transportation Infrastructure': 'Utilities', 'Packaging': 'Industrials',
+              'Professional Services': 'Information Technology', 'Beverages': 'Consumer','Semiconductors': 'Materials'}
+    country_map = {'US': 'US', 'CA': 'US', 'IN': 'EM', 'DE': 'EU', 'HK': 'ROW', 'FR': 'EU', 'GB': 'EU', 'CN':'EM', 'AU': 'ROW',
+                   'RU': 'EM','CH':'EU','NL':'EU', 'IE':'EU', 'BE':'EU', 'IL':'EM', 'PT':'EU','BM':'ROW', 'LU':'EU'}
+    df['sector'] = df['sector'].map(sector_map)
+    df['country'] = df['country'].map(country_map)
     df['growth_rate'] = df['growth_rate'].apply(transfer_growth_rate)
     df['ebitda_margin'] = df['ebitda_margin'].apply(transfer_ebitda_margin)
     df['returnOnCapitalEmployed'] = df['returnOnCapitalEmployed'].apply(transfer_roce)

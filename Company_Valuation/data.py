@@ -32,6 +32,7 @@ def clean_data(df):
     df['returnOnCapitalEmployed'] = df['returnOnCapitalEmployed'].apply(transfer_roce)
     df['revenue'] = df['revenue'].apply(get_revenue_size)
     df = df[((df['enterpriseValue'] / df['ebitda']) > 4) & ((df['enterpriseValue'] / df['ebitda']) < 23)]
+    df = df[df['enterpriseValue'] < 4000]
     return df
 
 def holdout(df):

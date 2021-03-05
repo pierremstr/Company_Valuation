@@ -3,7 +3,7 @@ from Company_Valuation.utils import vectorize
 from Company_Valuation.pipeline import make_pipeline
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.preprocessing import RobustScaler
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, train_test_split
 
 
 class Trainer():
@@ -33,6 +33,7 @@ class Trainer():
             df = vectorize(df)
         # Hold out
         self.X_train, self.X_test, self.y_train, self.y_test = holdout(df)
+        #self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X_train, self.y_train, test_size=0.2, random_state=42)
         # Make pipe
         pipe = make_pipeline(model, scaler, num_cols, cat_cols)
         if remove_features:
@@ -40,7 +41,7 @@ class Trainer():
         cv_score = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring='neg_mean_squared_error').mean())
         print(f'Cross Validated RMSE = {cv_score ** 0.5}')
         pipe.fit(self.X_train, self.y_train)
-        return pipe
+        return pipe #, self.X_test, self.y_test)
 
     def evaluate(self, pipe):
         y_pred = pipe.predict(self.X_test)

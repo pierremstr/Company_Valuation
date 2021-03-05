@@ -5,10 +5,10 @@ from sklearn.impute import SimpleImputer
 
 def make_pipeline(model, scaler, num_cols, cat_cols):
     num_transformer = Pipeline([('imputer', SimpleImputer()),
-                                    ('scaler', {scaler})])
+                                ('scaler', scaler)])
     # Preprocessor
     preprocessor = ColumnTransformer([
-        ('num_transformer', num_transformer, num_cols)],
+        ('num_transformer', num_transformer, num_cols),
          ('cat_transformer', OneHotEncoder(), cat_cols)],
         remainder='passthrough')
     # Combine preprocessor and model in pipeline

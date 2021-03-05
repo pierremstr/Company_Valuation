@@ -1,4 +1,4 @@
-from Company_Valuation.data import get_data, holdout
+from Company_Valuation.data import get_data, holdout, clean_data
 from Company_Valuation.utils import vectorize
 from Company_Valuation.pipeline import make_pipeline
 from sklearn.metrics import mean_absolute_error, mean_squared_error
@@ -25,9 +25,8 @@ class Trainer():
                 cat_cols.remove(feature)
         # get data
         df = get_data()
-        df = clean_data()
+        df = clean_data(df)
         # Drop removed features
-        df = df.drop(columns=['symbol'])
         df = df.drop(columns=remove_features)
         # NLP
         if not 'description' in remove_features:

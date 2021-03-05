@@ -1,8 +1,12 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import os
 
 def get_data():
-    df = pd.read_csv('../Company_Valuation/clean_data/clean_clean_data.csv', index_col='Unnamed: 0')
+    mydir = os.path.abspath(os.path.dirname(__file__))
+    data_path = os.path.join(mydir,'clean_data', 'clean_clean_data.csv')
+    df =  pd.read_csv(data_path, index_col=0)
+    df = df.drop(columns=["size","symbol"])
     return df
 
 def clean_data(df):
@@ -25,7 +29,7 @@ def clean_data(df):
 
 def holdout(df):
     y = df["enterpriseValue"]
-    X = df.drop("enterpriseValue", axis=1)
+    X = df.drop(columns=["enterpriseValue"])
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
     return X_train, X_test, y_train, y_test

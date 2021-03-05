@@ -9,7 +9,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 def cleaner(info):
     # Remove punctuation
     for p in string.punctuation:
-        info = str(info).replace(p, '')   
+        info = str(info).replace(p, '')
     # Lower case
     info = info.lower()
     # Remove numbers
@@ -50,3 +50,46 @@ def vectorize(df, vectorizer='tfidf', context=2, max_df=0.85, min_df=0.05):
     merged_df = df_copy.merge(vect_df, left_index=True, right_index=True, how='left')
     merged_df.drop(columns=['description','clean_info'], inplace=True)
     return merged_df
+
+
+def get_revenue_size(value):
+    if value <= 150:
+        return 1
+    if 150 < value <= 550:
+        return 2
+    if 550 < value <= 2500:
+        return 3
+    else:
+        return 4
+
+def transfer_ebitda_margin(value):
+    if value >= 0.3:
+        return 5
+    if 0.2 <= value < 0.3:
+        return 4
+    if 0.13 <= value < 0.2:
+        return 3
+    if 0.07 <= value < 0.13:
+        return 2
+    else:
+        return 1
+
+def transfer_growth_rate(value):
+    if value >= 0.1:
+        return 4
+    if 0.05 <= value < 0.1:
+        return 3
+    if 0 <= value < 0.05:
+        return 2
+    else:
+        return 1
+
+def transfer_roce(value):
+    if value >= 0.1:
+        return 4
+    if 0.05 <= value < 0.1:
+        return 3
+    if 0.01 <= value < 0.05:
+        return 2
+    else:
+        return 1

@@ -6,11 +6,26 @@ def get_data():
     return df
 
 def clean_data(df):
-    pass
+    sector_map = {'Industrials': 'Industrials', 'Technology': 'Information Technology', 'Consumer Cyclical': 'Consumer',
+              'Energy': 'Energy', 'Healthcare': 'Healthcare', 'Basic Materials': 'Materials', 'Utilities': 'Utilities',
+              'Consumer Defensive': 'Consumer', 'Communication Services': 'Communication Services', 'Metals & Mining': 'Materials',
+              'Chemicals': 'Industrials', 'Construction': 'Industrials', 'Textiles, Apparel & Luxury Goods': 'Consumer',
+              'Machinery': 'Industrials', 'Electrical Equipment': 'Industrials', 'Media': 'Communication Services',
+              'Food Products': 'Consumer', 'Auto Components': 'Industrials', 'Pharmaceuticals': 'Healthcare',
+              'Retail': 'Consumer', 'Hotels, Restaurants & Leisure': 'Consumer', 'Consumer products': 'Consumer',
+              'Commercial Services & Supplies': 'Materials', 'Trading Companies & Distributors': 'Communication Services',
+              'Telecommunication':'Communication Services','Paper & Forest': 'Materials','Industrial Conglomerates': 'Industrials',
+              'Transportation Infrastructure': 'Utilities', 'Packaging': 'Industrials',
+              'Professional Services': 'Information Technology', 'Beverages': 'Consumer','Semiconductors': 'Materials'}
+    country_map = {'US': 'US', 'CA': 'US', 'IN': 'EM', 'DE': 'EU', 'HK': 'ROW', 'FR': 'EU', 'GB': 'EU', 'CN':'EM', 'AU': 'ROW',
+                   'RU': 'EM','CH':'EU','NL':'EU', 'IE':'EU', 'BE':'EU', 'IL':'EM', 'PT':'EU','BM':'ROW', 'LU':'EU'}
+    df['sector'] = df['sector'].apply(sector_map)
+    df['country'] = df['country'].apply(country_map)
+    return df
 
 def holdout(df):
-    y_train = df["enterpriseValue"]
-    X_train = df.drop("enterpriseValue", axis=1)
+    y = df["enterpriseValue"]
+    X = df.drop("enterpriseValue", axis=1)
 
-    X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.2)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
     return X_train, X_test, y_train, y_test

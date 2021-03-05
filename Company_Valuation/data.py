@@ -24,12 +24,14 @@ def clean_data(df):
               'Professional Services': 'Information Technology', 'Beverages': 'Consumer','Semiconductors': 'Materials'}
     country_map = {'US': 'US', 'CA': 'US', 'IN': 'EM', 'DE': 'EU', 'HK': 'ROW', 'FR': 'EU', 'GB': 'EU', 'CN':'EM', 'AU': 'ROW',
                    'RU': 'EM','CH':'EU','NL':'EU', 'IE':'EU', 'BE':'EU', 'IL':'EM', 'PT':'EU','BM':'ROW', 'LU':'EU'}
+    df = df.sort_values('revenue').head(len(df)-100)
     df['sector'] = df['sector'].map(sector_map)
     df['country'] = df['country'].map(country_map)
     df['growth_rate'] = df['growth_rate'].apply(transfer_growth_rate)
     df['ebitda_margin'] = df['ebitda_margin'].apply(transfer_ebitda_margin)
     df['returnOnCapitalEmployed'] = df['returnOnCapitalEmployed'].apply(transfer_roce)
     df['revenue'] = df['revenue'].apply(get_revenue_size)
+    df = df[((df['enterpriseValue'] / df['ebitda']) > 4) & ((df['enterpriseValue'] / df['ebitda']) < 23)]
     return df
 
 def holdout(df):

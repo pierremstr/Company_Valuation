@@ -19,8 +19,8 @@ def clean_data(df):
               'Professional Services': 'Information Technology', 'Beverages': 'Consumer','Semiconductors': 'Materials'}
     country_map = {'US': 'US', 'CA': 'US', 'IN': 'EM', 'DE': 'EU', 'HK': 'ROW', 'FR': 'EU', 'GB': 'EU', 'CN':'EM', 'AU': 'ROW',
                    'RU': 'EM','CH':'EU','NL':'EU', 'IE':'EU', 'BE':'EU', 'IL':'EM', 'PT':'EU','BM':'ROW', 'LU':'EU'}
-    df['sector'] = df['sector'].apply(sector_map)
-    df['country'] = df['country'].apply(country_map)
+    df['sector'] = df['sector'].map(sector_map)
+    df['country'] = df['country'].map(country_map)
     return df
 
 def holdout(df):

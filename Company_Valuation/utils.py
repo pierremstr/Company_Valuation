@@ -25,7 +25,7 @@ def cleaner(info):
                       'together', 'companys','distributes', 'comprising', 'produces', 'support', 'two',
                       'companies','sales', 'operations', 'ltd','involved','industry','subsidiary', 'owns',
                       'sale', 'three', 'range', 'holding', 'businesses', 'firm', 'product', 'plc',
-                      'located', 'names'])
+                      'located', 'names', 'sector', 'country', 'sectors'])
     # Remove stop words
     word_tokens = word_tokenize(info)
     info = [w for w in word_tokens if not w in stop_words]

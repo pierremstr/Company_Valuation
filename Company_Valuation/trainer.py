@@ -5,6 +5,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import cross_val_score
 
+
 class Trainer():
 
     def __init__(self):
@@ -50,10 +51,4 @@ class Trainer():
         mse = mean_squared_error(self.y_test, y_pred)
         rmse = mse ** 0.5
         return {'mae': mae, 'mse': mse, 'rmse': rmse}
-
-
-
-        
-            
-
 

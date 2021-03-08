@@ -70,7 +70,7 @@ def get_select_box_data():
     print('get_select_box_data called')
     return pd.DataFrame({
           'Sector': ['Consumer', 'Communication Services', 'Utilities', 'Industrials', 'Materials', 'Information Technology', 'Healthcare', 'Energy'],
-          'Region': ['NA','EU','EM', 'ROW', '', '', '']
+          'Region': ['NA','EU','EM', 'ROW', '', '', '', '']
         })
 df = get_select_box_data()
 

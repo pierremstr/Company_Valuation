@@ -55,6 +55,7 @@ def run():
 
     prediction=""
     if st.button("Predict"): 
+        st.balloons()
         # add net debt to the prediction
         prediction = model.predict(X) - net_debt
     
@@ -80,7 +81,7 @@ df_sector = get_select_sector()
 def get_select_box_data():
     print('get_select_box_data called')
     return pd.DataFrame({
-          'Region': ['NA','EU','EM', 'ROW']
+          'Region': ['US','EU','EM', 'ROW']
         })
 df_region = get_select_box_data()
 

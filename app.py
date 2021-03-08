@@ -55,7 +55,7 @@ def run():
     prediction=""
     if st.button("Predict"): 
         # add net debt to the prediction
-        prediction = model.predict(X) + net_debt
+        prediction = model.predict(X) - net_debt
     st.success('The output is {}'.format(prediction))
 
 

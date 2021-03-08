@@ -4,6 +4,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import joblib
+import time
 
 # to run --> streamlit run app.py
 # todo: 
@@ -18,20 +19,20 @@ st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimat
 st.markdown("<h2 style='text-align: center; color: black;'>From experts with over 10 years experience</h2>", unsafe_allow_html=True)
 
 
-# 
+# Body
 def run():
     # st.title(" XXXX ")
     html_temp="""
     """
     st.markdown(html_temp, unsafe_allow_html = True) 
     # INPUT       
-    revenue =        st.number_input("Revenue US$m") 
+    revenue =        st.number_input("Revenue US$m", 100) 
     ebitda =         st.number_input("EBITDA US$m") 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (last 3 years)") 
     return_on_capital_employed = st.number_input("Return On Capital Employed")
-    sector =         st.selectbox("Sector", df['Sector'])
-    region =         st.selectbox("Region", df['Region'])
+    sector =         st.selectbox("Sector", df_sector)
+    region =         st.selectbox("Region", df_region)
 
     # define X
     X = pd.DataFrame(dict(
@@ -56,7 +57,10 @@ def run():
     if st.button("Predict"): 
         # add net debt to the prediction
         prediction = model.predict(X) - net_debt
-    st.success('The output is {}'.format(prediction))
+    
+        with st.spinner(text='The company is being evaluated ...'):
+            time.sleep(5)
+            st.success('We estimate that this company has an equity value of : {}'.format(prediction))
 
 
     # st.success("We estimate that this company has an equity value of :")
@@ -66,13 +70,19 @@ def run():
 
 
 # func for df with selectable elements
+def get_select_sector():
+    print('get_select_sector called')
+    return pd.DataFrame({
+          'Sector': ['Consumer', 'Communication Services', 'Utilities', 'Industrials', 'Materials', 'Information Technology', 'Healthcare', 'Energy']
+        })
+df_sector = get_select_sector()
+
 def get_select_box_data():
     print('get_select_box_data called')
     return pd.DataFrame({
-          'Sector': ['Consumer', 'Communication Services', 'Utilities', 'Industrials', 'Materials', 'Information Technology', 'Healthcare', 'Energy'],
-          'Region': ['NA','EU','EM', 'ROW', '', '', '', '']
+          'Region': ['NA','EU','EM', 'ROW']
         })
-df = get_select_box_data()
+df_region = get_select_box_data()
 
 
 

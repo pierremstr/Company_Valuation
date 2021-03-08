@@ -59,8 +59,8 @@ def run():
         prediction = model.predict(X) - net_debt
     
         with st.spinner(text='The company is being evaluated ...'):
-            time.sleep(5)
-            st.success('We estimate that this company has an equity value of : {}'.format(prediction))
+            time.sleep(3)
+            st.success('We estimate that this company has an equity value of : {} US$m'.format(round(prediction[0], 2)))
 
 
     # st.success("We estimate that this company has an equity value of :")

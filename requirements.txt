@@ -10,6 +10,7 @@ pandas
 scikit-learn
 streamlit
 nltk
+htbuilder
 
 # tests/linter
 black

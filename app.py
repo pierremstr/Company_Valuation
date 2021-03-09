@@ -1,5 +1,10 @@
 
+from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
+from htbuilder.units import percent, px
+from htbuilder.funcs import rgba, rgb
+
 from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfer_ebitda_margin, get_revenue_size
+from Company_Valuation.utils import image, link, layout
 from Company_Valuation.data import get_data
 import streamlit as st
 import numpy as np
@@ -9,10 +14,10 @@ import time
 
 # to run --> streamlit run app.py
 # todo: 
-    # 1. joblib function
-    # 2. input into model
-    # 3. heroku
-    # 4. footer
+    # 1. joblib function 
+    # 2. input into model [x]
+    # 3. heroku [x]
+    # 4. footer 
     # ... improvement
 
 # Header ---------------------------------------------------------------------------------------------------------------
@@ -33,7 +38,7 @@ def run():
     # st.write(min_revenue)
 
     revenue =        st.number_input("Revenue US$m", 100) 
-    ebitda =         st.number_input("EBITDA US$m", min_value=0) 
+    ebitda =         st.number_input("EBITDA US$m", min_value=0.0) 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (last 3 years)") 
     return_on_capital_employed = st.number_input("Return On Capital Employed")
@@ -71,7 +76,7 @@ def run():
 
         with st.spinner(text='The company is being evaluated ...'):
             time.sleep(3)
-            st.success('We estimate that this company has an equity range between  {} and  {} US$m'.format(round(prediction_lower[0], 2), round(prediction_upper[0], 2)))
+            st.info('We estimate that this company has an equity range between  {} and  {} US$m.'.format(round(prediction_lower[0], 2), round(prediction_upper[0], 2)))
 
 
     # st.success("We estimate that this company has an equity value of :")
@@ -121,17 +126,36 @@ hide_footer_style = """
 st.markdown(hide_footer_style, unsafe_allow_html=True)
 
 
-# BACKGROUND
-# CSS = """
-# h1 {
-#     color: red;
-# }
-# body {
-#     background-image: url('https://unsplash.com/photos/OPnBJ5L2oxs');
-#     background-size: cover;
-# }
-# """
+myargs = [
+    "Made in ",
+    image('https://seeklogo.com/images/U/united-kingdom-flag-logo-1088704B5E-seeklogo.com.png',
+            width=px(20), height=px(15)),
+    " with ❤️ by Pierre, Harry & Ian",
+    # link("https://twitter.com/ChristianKlose3", "Pierre, Harry & Ian"),
+    # br(),
+    # link("https://buymeacoffee.com/chrischross", image('https://i.imgur.com/thJhzOO.png')),
+]
+layout(*myargs)
 
-# st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
+
+
+
+# BACKGROUND
+
+CSS = """
+h1 {
+    color: red;
+}
+body {
+    background-image: url('https://cdn.hipwallpaper.com/i/26/43/QDrqXi.jpg');
+    background-size: cover;
+}
+.controls {
+  display: none;
+}
+
+"""
+st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 if __name__=='__main__': run()

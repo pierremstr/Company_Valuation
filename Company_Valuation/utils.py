@@ -98,3 +98,12 @@ def error_pc(y_true, y_pred):
     errors = abs(y_true - y_pred)
     pc_errors = errors/y_true
     return pc_errors.mean()
+
+
+def transfer_ev(x):
+    if x < 500:
+        return 0
+    if x > 5000:
+        return 2
+    else:
+        return 1

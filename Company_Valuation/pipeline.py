@@ -14,5 +14,5 @@ def make_pipeline(model, scaler, num_cols, cat_cols):
     # Combine preprocessor and model in pipeline
     final_pipe = Pipeline([
         ('preprocessing', preprocessor),
-        (f'{model}', model)])
+        ('model', model)])
     return final_pipe

@@ -1,7 +1,7 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
-from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfer_ebitda_margin, get_revenue_size
+from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfer_ebitda_margin, get_revenue_size, transfer_ev
 
 def get_data():
     mydir = os.path.abspath(os.path.dirname(__file__))
@@ -25,15 +25,23 @@ def clean_data(df):
     country_map = {'US': 'NA', 'CA': 'NA', 'IN': 'EM', 'DE': 'EU', 'HK': 'ROW', 'FR': 'EU', 'GB': 'EU', 'CN':'EM', 'AU': 'ROW',
                    'RU': 'EM','CH':'EU','NL':'EU', 'IE':'EU', 'BE':'EU', 'IL':'EM', 'PT':'EU','BM':'ROW', 'LU':'EU'}
     df = df.sort_values('revenue').head(len(df)-100)  
+    #df = df[(df['ebitda'] < upper) & (df['ebitda'] > lower)]
     df['sector'] = df['sector'].map(sector_map)
     df['country'] = df['country'].map(country_map)
     df['growth_rate'] = df['growth_rate'].apply(transfer_growth_rate)
     df['ebitda_margin'] = df['ebitda_margin'].apply(transfer_ebitda_margin)
-    df = df[df['enterpriseValue'] < 10000]
     df = df[((df['enterpriseValue'] / df['ebitda']) > 5) & ((df['enterpriseValue'] / df['ebitda']) < 23)]
     return df
 
 def holdout(df):
+    y = df["enterpriseValue"]
+    X = df.drop(columns=["enterpriseValue"])
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+    return X_train, X_test, y_train, y_test
+
+def classify_holdout(df):
+    df['enterpriseValue'] = df['enterpriseValue'].apply(transfer_ev)
     y = df["enterpriseValue"]
     X = df.drop(columns=["enterpriseValue"])
 

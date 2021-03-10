@@ -90,10 +90,10 @@ class Trainer():
         # mse = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring='neg_mean_squared_error').mean())
         # print(f'Cross Validated RMSE = {mse ** 0.5}')
         precision_scorer = make_scorer(my_custom_metric, greater_is_better=True)
-        # precision = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring=precision_scorer).mean())
-        # print(f'Percentage Correctly Identified in our Range = {precision}')
-        #pipe.fit(self.X_train, self.y_train)
-        return pipe, self.X_train, self.y_train
+        precision = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring=precision_scorer).mean())
+        print(f'Percentage Correctly Identified in our Range = {precision}')
+        pipe.fit(self.X_train, self.y_train)
+        return pipe#, self.X_train, self.y_train
 
     def evaluate(self, pipe):
         y_pred = pipe.predict(self.X_test)

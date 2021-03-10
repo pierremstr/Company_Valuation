@@ -107,6 +107,3 @@ def transfer_ev(x):
         return 2
     else:
         return 1
-
-
-

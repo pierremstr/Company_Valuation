@@ -1,10 +1,42 @@
 
 # from htbuilder import HtmlElement, ul, li, br, hr, a, p, img, styles, classes, fonts
+# from htbuilder.units import percent, px
+# from htbuilder.funcs import rgba, rgb
+# from htbuilder import HtmlElement, styles, classes, fonts
+# from htbuilder import H
+# px = H.px
+
+# from htbuilder import HtmlElement, styles, classes, fonts
+from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
 from htbuilder.units import percent, px
 from htbuilder.funcs import rgba, rgb
 
+# from htbuilder import H
+# div = H.div
+# ul = H.ul
+# li = H.li
+# img = H.img
+
+# br = H.br
+# a = H.a
+# p = H.p
+# styles = H.styles
+# classes = H.classes
+# fonts = H.fonts
+# hr = H.hr
+
+# px = H.px
+# percent = H.percent
+# rgba = H.rgba
+# rgb = H.rgb
+
+
+
+
+
+
+
 from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfer_ebitda_margin, get_revenue_size
-from Company_Valuation.utils import image, link, layout
 from Company_Valuation.data import get_data
 import streamlit as st
 import numpy as np
@@ -126,16 +158,82 @@ hide_footer_style = """
 st.markdown(hide_footer_style, unsafe_allow_html=True)
 
 
-myargs = [
-    "Made in ",
-    image('https://seeklogo.com/images/U/united-kingdom-flag-logo-1088704B5E-seeklogo.com.png',
-            width=px(20), height=px(15)),
-    " with ❤️ by Pierre, Harry & Ian",
-    # link("https://twitter.com/ChristianKlose3", "Pierre, Harry & Ian"),
-    # br(),
-    # link("https://buymeacoffee.com/chrischross", image('https://i.imgur.com/thJhzOO.png')),
-]
-layout(*myargs)
+
+
+
+def image(src_as_string, **style):
+    return img(src=src_as_string, style=styles(**style))
+
+
+def link(link, text, **style):
+    return a(_href=link, _target="_blank", style=styles(**style))(text)
+
+
+def layout(*args):
+
+    style = """
+    <style>
+      # MainMenu {visibility: hidden;}
+      footer {visibility: hidden;}
+     .stApp { bottom: 70px; }
+    </style>
+    """
+
+    style_div = styles(
+        position="fixed",
+        left=0,
+        bottom=0,
+        margin=px(0, 0, 0, 0),
+        width=percent(100),
+        color="black",
+        text_align="center",
+        height="auto",
+        opacity=1
+    )
+
+    style_hr = styles(
+        display="block",
+        margin=px(8, 8, "auto", "auto"),
+        border_style="inset",
+        border_width=px(2)
+    )
+
+    body = p()
+    foot = div(
+        style=style_div
+    )(
+        hr(
+            style=style_hr
+        ),
+        body
+    )
+
+    st.markdown(style, unsafe_allow_html=True)
+
+    for arg in args:
+        if isinstance(arg, str):
+            body(arg)
+
+        elif isinstance(arg, HtmlElement):
+            body(arg)
+
+    st.markdown(str(foot), unsafe_allow_html=True)
+
+
+def footer():
+    myargs = [
+        "Made in ",
+        image('https://seeklogo.com/images/U/united-kingdom-flag-logo-1088704B5E-seeklogo.com.png',
+                width=px(20), height=px(15)),
+        " with ❤️ by Pierre, Harry & Ian",
+        # link("https://twitter.com/ChristianKlose3", "Pierre, Harry & Ian"),
+        # br(),
+        # link("https://buymeacoffee.com/chrischross", image('https://i.imgur.com/thJhzOO.png')),
+    ]
+    layout(*myargs)
+
+
+
 
 
 
@@ -158,4 +256,6 @@ body {
 """
 st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
-if __name__=='__main__': run()
+if __name__=='__main__': 
+    run()
+    footer()

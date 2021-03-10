@@ -30,10 +30,10 @@ def run():
     # min_revenue = get_data()['revenue'].min()
     # st.write(min_revenue)
     
-    revenue =        st.number_input("Revenue US$m", 100) 
-    ebitda =         st.number_input("EBITDA US$m", min_value=0.0) 
+    revenue =        st.number_input("Revenue US$m", 0.1) 
+    ebitda =         st.number_input("EBITDA US$m", min_value=25, max_value=1_400) 
     net_debt =       st.number_input("Net Debt US$m")
-    revenue_growth = st.number_input("Revenue Growth (last 3 years)") 
+    revenue_growth = st.number_input("Revenue Growth (e.g. 0.15 for 15%)") 
     # return_on_capital_employed = st.number_input("Return On Capital Employed")
     sector =         st.selectbox("Sector", df_sector)
     region =         st.selectbox("Region", df_region)

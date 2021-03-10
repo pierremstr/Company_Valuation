@@ -4,6 +4,7 @@ from htbuilder.funcs import rgba, rgb
 from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfer_ebitda_margin, get_revenue_size
 from Company_Valuation.data import get_data
 import streamlit as st
+import streamlit.components.v1 as components
 import numpy as np
 import pandas as pd
 import joblib
@@ -34,7 +35,7 @@ def run():
     # min_revenue = get_data()['revenue'].min()
     # st.write(min_revenue)
     
-
+    
     revenue =        st.number_input("Revenue US$m", min_value=25.00) 
     ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
     net_debt =       st.number_input("Net Debt US$m")
@@ -114,8 +115,17 @@ def get_region(reagion):
 # Body ------------------------------------------------------------------------------------------------------------------
 
 
+
 # Text -------------------------------------------
 st.markdown("<p style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies.</p>", unsafe_allow_html=True)
+
+run()
+
+components.html(
+    """
+    <hr style="max-width: 60%">
+    """, height=10
+)
 
 st.markdown("<p style='text-align: justify; color: black;'>For the market approach to be successful, it is critical to ensure that all companies being used for comparison are similar to the subject company or that premiums and discounts are applied for divergent features.</p>", unsafe_allow_html=True)
 
@@ -240,13 +250,19 @@ body {
     background-image: url('http://nextechinnovation.com/wp-content/uploads/2018/08/7243-01-low-poly-background-16x9-1.jpg');
     background-size: cover;
 }
+label {
+    font-weight: bolder;
+    font-size: 1.0rem;
+}
+.block-container {
+    padding: 5rem 1rem 0rem;
+}
 """
 st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 
 
-if __name__=='__main__': 
-    run()
-    footer()
+
+footer()
 
 

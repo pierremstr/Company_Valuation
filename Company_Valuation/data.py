@@ -24,13 +24,46 @@ def clean_data(df):
               'Professional Services': 'Information Technology', 'Beverages': 'Consumer','Semiconductors': 'Materials'}
     country_map = {'US': 'NA', 'CA': 'NA', 'IN': 'EM', 'DE': 'EU', 'HK': 'ROW', 'FR': 'EU', 'GB': 'EU', 'CN':'EM', 'AU': 'ROW',
                    'RU': 'EM','CH':'EU','NL':'EU', 'IE':'EU', 'BE':'EU', 'IL':'EM', 'PT':'EU','BM':'ROW', 'LU':'EU'}
-    df = df.sort_values('revenue').head(len(df)-100)  
+    df = df.sort_values('revenue').head(len(df)-100)
     #df = df[(df['ebitda'] < upper) & (df['ebitda'] > lower)]
     df['sector'] = df['sector'].map(sector_map)
     df['country'] = df['country'].map(country_map)
     df['growth_rate'] = df['growth_rate'].apply(transfer_growth_rate)
     df['ebitda_margin'] = df['ebitda_margin'].apply(transfer_ebitda_margin)
     df = df[((df['enterpriseValue'] / df['ebitda']) > 5) & ((df['enterpriseValue'] / df['ebitda']) < 23)]
+    df['ev/ebitda'] = df['enterpriseValue']/ df['ebitda']
+    Consumer = df[((df['sector']) == 'Consumer')]
+    Industrials = df[((df['sector']) == 'Industrials')]
+    Information_Technology = df[((df['sector']) == 'Information Technology')]
+    Healthcare = df[((df['sector']) == 'Healthcare')]
+    Materials = df[((df['sector']) == 'Materials')]
+    Energy = df[((df['sector']) == 'Energy')]
+    Utilities = df[((df['sector']) == 'Utilities')]
+    Communication_Services = df[((df['sector']) == 'Communication Services')]
+
+    def label_sector (row):
+      if row['sector'] == 'Consumer' :
+        return Consumer['ev/ebitda'].median()
+      if row['sector'] == 'Industrials' :
+        return Industrials['ev/ebitda'].median()
+      if row['sector'] == 'Information Technology' :
+        return Information_Technology['ev/ebitda'].median()
+      if row['sector'] == 'Healthcare' :
+        return Healthcare['ev/ebitda'].median()
+      if row['sector'] == 'Materials' :
+        return Materials['ev/ebitda'].median()
+      if row['sector'] == 'Energy' :
+        return Energy['ev/ebitda'].median()
+      if row['sector'] == 'Communication Services' :
+        return Communication_Services['ev/ebitda'].median()
+      return Utilities ['ev/ebitda'].median()
+
+    df['sector_mutiple'] = df.apply (lambda row: label_sector(row), axis=1)
+    df['premium/discount'] = df['ev/ebitda'] / df['sector_mutiple'] -1
+    df = df[((df['premium/discount']) > -0.5) & ((df['premium/discount']) < 0.5)]
+    df = df[((df['enterpriseValue']) > 300) & ((df['enterpriseValue']) < 15000)]
+    df.drop(['ev/ebitda','sector_mutiple','premium/discount'], axis=1, inplace=True)
+
     return df
 
 def holdout(df):

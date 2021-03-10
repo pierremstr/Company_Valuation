@@ -12,11 +12,12 @@ import time
 
 
 # Header ---------------------------------------------------------------------------------------------------------------
+st.markdown("<h1 style='text-align: center; color: black;'> Value a company using Machine Learning </h1>", unsafe_allow_html=True)
 # st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
 col1, col2, col3 = st.beta_columns(3)
 col2.image('Company_Valuation/clean_data/logo.png', width=500, use_column_width=True)
 # st.image('Company_Valuation/clean_data/C V E-logo-2.png', width=300)
-# st.markdown("<h2 style='text-align: center; color: grey;'> ... slogan ... </h2>", unsafe_allow_html=True)
+
 
 # Header ---------------------------------------------------------------------------------------------------------------
 
@@ -33,9 +34,22 @@ def run():
     st.markdown(html_temp, unsafe_allow_html = True) 
     # INPUT  
     
-
+    
     revenue =        st.number_input("Revenue US$m", min_value=25.00) 
     ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
+
+    if ebitda > revenue:
+        revenue = ebitda
+        st.warning('The ebitda is greater than the revenue. Please re-enter your revenue!')
+
+    # diff = -1
+    # min_revenue = 25
+    # while diff < 0:
+    # revenue = st.number_input('revenue', min_value=min_revenue)
+    # ebitda = st.number_input('ebitda', min_value=min_revenue)
+    # diff = revenue - ebitda
+    # min_revenue = ebitda
+
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (e.g. 0.15 for 15%)") 
     sector =         st.selectbox("Sector", df_sector)
@@ -112,7 +126,7 @@ def get_region(reagion):
 
 
 # Text -------------------------------------------
-st.markdown("<p style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies. The estimator below applies a market approach using Machine Learning models to identify patterns in thousand of public companies.</p>", unsafe_allow_html=True)
 
 run()
 
@@ -124,7 +138,7 @@ components.html(
 
 st.markdown("<p style='text-align: justify; color: black;'>For the market approach to be successful, it is critical to ensure that all companies being used for comparison are similar to the subject company or that premiums and discounts are applied for divergent features.</p>", unsafe_allow_html=True)
 
-st.markdown("<p style='text-align: justify; color: black;'>We have analysed the relationship between the market valuation of approximately two thousand public companies with their financial and business profile. Our concluded model enables us to apply this relationship to the profile of any company that meets our criteria and derive an estimation of its equity value. </p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: justify; color: black;'>We have analysed the relationship between the market valuation of approximately two thousand public companies with their financial and business profile. Our optimized model enables us to apply this relationship to the profile of any company that meets our criteria and derive an estimation of its equity value. </p>", unsafe_allow_html=True)
 
 st.markdown("<p style='text-align: justify; color: black;'>To ensure a level of accuracy in our model, we did not consider companies that met any of the following criteria:</p>", unsafe_allow_html=True)
 

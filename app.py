@@ -12,7 +12,7 @@ import time
 
 
 # Header ---------------------------------------------------------------------------------------------------------------
-st.markdown("<h1 style='text-align: center; color: black;'> Value a company using Machine Learning </h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: black;'> Value a company using Machine Learning </h2>", unsafe_allow_html=True)
 # st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
 col1, col2, col3 = st.beta_columns(3)
 col2.image('Company_Valuation/clean_data/logo.png', width=500, use_column_width=True)

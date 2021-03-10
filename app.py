@@ -88,6 +88,9 @@ def run():
             if prediction_upper < 0:
                 st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value of: </h3>", unsafe_allow_html=True)
                 st.markdown("<h1 style='text-align: center; color: black;'> 0 US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
+            elif (prediction_lower < 0) & (prediction_upper > 0):
+                st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
+                st.markdown("<h1 style='text-align: center; color: black;'> 0 - {} US$m </h1>".format(int(prediction_upper[0])), unsafe_allow_html=True)
             else:
                 st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
                 st.markdown("<h1 style='text-align: center; color: black;'> {} - {} US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)

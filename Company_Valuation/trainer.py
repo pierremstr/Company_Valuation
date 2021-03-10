@@ -6,7 +6,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import cross_val_score, train_test_split
 
 def my_custom_metric(y_true, y_pred):
-    correct = 0 
+    correct = 0
     total = 0
     y_true =y_true.values
     for index, value in enumerate(y_pred):
@@ -37,7 +37,7 @@ class Trainer():
                 cat_cols.remove(feature)
         # get data
         df = get_data()
-        df = clean_data(df, upper, lower)
+        df = clean_data(df)
         length = len(df)
         # Drop removed features
         df = df.drop(columns=remove_features)
@@ -45,20 +45,24 @@ class Trainer():
         if not 'description' in remove_features:
             df = vectorize(df)
         # Hold out
-        self.X_train, self.X_test, self.y_train, self.y_test = holdout(df)
+        # self.X_train, self.X_test, self.y_train, self.y_test = holdout(df)
         #self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X_train, self.y_train, test_size=0.2, random_state=42)
         # Make pipe
+
+        y = df["enterpriseValue"]
+        X = df.drop(columns=["enterpriseValue"])
+
         pipe = make_pipeline(model, scaler, num_cols, cat_cols)
         if remove_features:
            print(f'Training without {remove_features}')
-        mse = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring='neg_mean_squared_error').mean())
-        print(f'Cross Validated RMSE = {mse ** 0.5}')
-        error_scorer = make_scorer(error_pc, greater_is_better=False)
-        error = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring=error_scorer).mean())
-        print(f'Percentage Error = {error}')
-        pipe.fit(self.X_train, self.y_train)
+        # mse = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring='neg_mean_squared_error').mean())
+        # print(f'Cross Validated RMSE = {mse ** 0.5}')
+        # error_scorer = make_scorer(error_pc, greater_is_better=False)
+        # error = abs(cross_val_score(pipe, self.X_train, self.y_train, cv=5, scoring=error_scorer).mean())
+        # print(f'Percentage Error = {error}')
+        pipe.fit(X, y)
         return pipe
-    
+
     def classify(self, model, scaler=RobustScaler(), remove_features=[]):
         # Split cols for column transformer
         num_cols = ['returnOnCapitalEmployed','grossProfit','ebitda', 'growth_rate', 'ebitda_margin']

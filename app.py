@@ -11,9 +11,9 @@ import time
 
 
 # Header ---------------------------------------------------------------------------------------------------------------
-# st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
-col1, col2, col3 = st.beta_columns(3)
-col2.image('Company_Valuation/clean_data/C V E-logo-2.png', width=200, use_column_width=True)
+st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
+# col1, col2, col3 = st.beta_columns(3)
+# col2.image('Company_Valuation/clean_data/C V E-logo-2.png', width=200, use_column_width=True)
 
 # st.markdown("<h2 style='text-align: center; color: grey;'> ... slogan ... </h2>", unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center; color: grey;'>Who we are, What we are doing, How can we bring value?</h4>", unsafe_allow_html=True)
@@ -34,7 +34,7 @@ def run():
     ebitda =         st.number_input("EBITDA US$m", min_value=0.0) 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (last 3 years)") 
-    return_on_capital_employed = st.number_input("Return On Capital Employed")
+    # return_on_capital_employed = st.number_input("Return On Capital Employed")
     sector =         st.selectbox("Sector", df_sector)
     region =         st.selectbox("Region", df_region)
 
@@ -42,8 +42,8 @@ def run():
     X = pd.DataFrame(dict(
     sector=[sector],
     country=[get_region(region)],
-    returnOnCapitalEmployed=[transfer_roce(return_on_capital_employed)],
-    revenue=[get_revenue_size(revenue)],
+    # returnOnCapitalEmployed=[transfer_roce(return_on_capital_employed)],
+    # revenue=[get_revenue_size(revenue)],
     ebitda=[transfer_ebitda_margin(ebitda)],
     growth_rate=[transfer_growth_rate(revenue_growth)],
     ebitda_margin = [transfer_ebitda_margin(ebitda/revenue)]
@@ -51,7 +51,7 @@ def run():
 
     # loading model
     # @st.cache()
-    def load_class_model(model='model.joblib'):
+    def load_class_model(model='final_model.joblib'):
         model = joblib.load(model)
         return model
 

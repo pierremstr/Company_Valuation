@@ -11,13 +11,17 @@ import time
 
 
 # Header ---------------------------------------------------------------------------------------------------------------
-st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
-# col1, col2, col3 = st.beta_columns(3)
-# col2.image('Company_Valuation/clean_data/C V E-logo-2.png', width=200, use_column_width=True)
-
+# st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
+col1, col2, col3 = st.beta_columns(3)
+col2.image('Company_Valuation/clean_data/logo.png', width=500, use_column_width=True)
+# st.image('Company_Valuation/clean_data/C V E-logo-2.png', width=300)
 # st.markdown("<h2 style='text-align: center; color: grey;'> ... slogan ... </h2>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align: center; color: grey;'>Who we are, What we are doing, How can we bring value?</h4>", unsafe_allow_html=True)
+
 # Header ---------------------------------------------------------------------------------------------------------------
+
+# Text ----------------------------
+# st.markdown("<h4 style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies.</h4>", unsafe_allow_html=True)
+# Text ----------------------------
 
 # Body ------------------------------------------------------------------------------------------------------------------
 def run():
@@ -30,8 +34,9 @@ def run():
     # min_revenue = get_data()['revenue'].min()
     # st.write(min_revenue)
     
-    revenue =        st.number_input("Revenue US$m", 0.1) 
-    ebitda =         st.number_input("EBITDA US$m", min_value=25, max_value=1_400) 
+
+    revenue =        st.number_input("Revenue US$m", min_value=25.00) 
+    ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (e.g. 0.15 for 15%)") 
     # return_on_capital_employed = st.number_input("Return On Capital Employed")
@@ -44,7 +49,7 @@ def run():
     country=[get_region(region)],
     # returnOnCapitalEmployed=[transfer_roce(return_on_capital_employed)],
     # revenue=[get_revenue_size(revenue)],
-    ebitda=[transfer_ebitda_margin(ebitda)],
+    ebitda=[ebitda],
     growth_rate=[transfer_growth_rate(revenue_growth)],
     ebitda_margin = [transfer_ebitda_margin(ebitda/revenue)]
     ))
@@ -70,7 +75,7 @@ def run():
         with st.spinner(text='The company is being evaluated ...'):
             time.sleep(2)
             st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
-            st.markdown("<h1 style='text-align: center; color: black;'> {} and  {} US$m </h1>".format(round(prediction_lower[0], 2), round(prediction_upper[0], 2)), unsafe_allow_html=True)
+            st.markdown("<h1 style='text-align: center; color: black;'> {} - {} US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
 
 
 
@@ -104,6 +109,14 @@ def get_region(reagion):
 # Body ------------------------------------------------------------------------------------------------------------------
 
 
+# Text -------------------------------------------
+st.markdown("<p style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies.</p>", unsafe_allow_html=True)
+
+st.markdown("<p style='text-align: justify; color: black;'>For the market approach to be successful, it is critical to ensure that all companies being used for comparison are similar to the subject company or that premiums and discounts are applied for divergent features.</p>", unsafe_allow_html=True)
+
+
+# Text -------------------------------------------
+
 # st.markdown("<div class="footer"> <p> style='text-align: center; color: black;'>Company Value Estimator </p></div>", unsafe_allow_html=True)
 
 
@@ -131,7 +144,7 @@ def layout(*args):
     <style>
       # MainMenu {visibility: hidden;}
       footer {visibility: hidden;}
-     .stApp { bottom: 50px; }
+     .stApp { bottom: 100px; }
     </style>
     """
 
@@ -148,10 +161,10 @@ def layout(*args):
     )
 
     style_hr = styles(
-        display="block",
+        display="inline",
         margin=px(8, 8, "auto", "auto"),
         border_style="inset",
-        border_width=px(2)
+        border_width=px(0)
     )
 
     body = p()
@@ -178,8 +191,6 @@ def layout(*args):
 
 def footer():
     myargs = [
-        "Our estimation is based upon a market approach. We analysed valuation of public companies as at December 2019, prior to the outbreak of the COVID-19.",
-        br(),
         "Made in ",
         image('https://seeklogo.com/images/U/united-kingdom-flag-logo-1088704B5E-seeklogo.com.png',
                 width=px(20), height=px(15)),
@@ -202,7 +213,8 @@ h1 {
     color: red;
 }
 body {
-
+    # background-image: url('https://wallpaper.dog/large/10864160.jpg');
+    # background-size: cover;
 }
 """
 st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
@@ -212,3 +224,5 @@ st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 if __name__=='__main__': 
     run()
     footer()
+
+

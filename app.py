@@ -25,22 +25,19 @@ col2.image('Company_Valuation/clean_data/logo.png', width=500, use_column_width=
 # Text ----------------------------
 
 # Body ------------------------------------------------------------------------------------------------------------------
+
 def run():
     # st.title(" XXXX ")
     html_temp="""
     """
     st.markdown(html_temp, unsafe_allow_html = True) 
     # INPUT  
+    
 
-    # min_revenue = get_data()['revenue'].min()
-    # st.write(min_revenue)
-    
-    
     revenue =        st.number_input("Revenue US$m", min_value=25.00) 
     ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (e.g. 0.15 for 15%)") 
-    # return_on_capital_employed = st.number_input("Return On Capital Employed")
     sector =         st.selectbox("Sector", df_sector)
     region =         st.selectbox("Region", df_region)
 
@@ -48,8 +45,6 @@ def run():
     X = pd.DataFrame(dict(
     sector=[sector],
     country=[get_region(region)],
-    # returnOnCapitalEmployed=[transfer_roce(return_on_capital_employed)],
-    # revenue=[get_revenue_size(revenue)],
     ebitda=[ebitda],
     growth_rate=[transfer_growth_rate(revenue_growth)],
     ebitda_margin = [transfer_ebitda_margin(ebitda/revenue)]
@@ -67,7 +62,7 @@ def run():
     # predict when button clicked
     prediction_upper = ""
     prediction_lower = ""
-    if st.button("Predict"): 
+    if st.button("Estimate"): 
         # add net debt to the prediction
         prediction = model.predict(X)
         prediction_upper = prediction * (1 + 0.1) - net_debt
@@ -141,7 +136,7 @@ st.markdown("<li color: black;'>Companies whose financial information was not av
 
 st.markdown("<li color: black;'>Companies with revenue smaller than US$10 million</li>", unsafe_allow_html=True)
 
-st.markdown("<li color: black;'>Companies with an enterprise value lower than US$300 million or higher than US$10 billion </li>", unsafe_allow_html=True)
+st.markdown("<li color: black;'>Companies with an enterprise value lower than US$300 million or higher than US$10 bn </li>", unsafe_allow_html=True)
 
 st.markdown("<li color: black;'>Companies with a “Enterprise Value / EBITDA” ratio lower than 4x or higher than 23x</li>", unsafe_allow_html=True)
 

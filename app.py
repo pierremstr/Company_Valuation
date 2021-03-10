@@ -114,6 +114,23 @@ st.markdown("<p style='text-align: justify; color: black;'>A common approach to 
 
 st.markdown("<p style='text-align: justify; color: black;'>For the market approach to be successful, it is critical to ensure that all companies being used for comparison are similar to the subject company or that premiums and discounts are applied for divergent features.</p>", unsafe_allow_html=True)
 
+st.markdown("<p style='text-align: justify; color: black;'>We have analysed the relationship between the market valuation of approximately two thousand public companies with their financial and business profile. Our concluded model enables us to apply this relationship to the profile of any company that meets our criteria and derive an estimation of its equity value. </p>", unsafe_allow_html=True)
+
+st.markdown("<p style='text-align: justify; color: black;'>To ensure a level of accuracy in our model, we did not consider companies that met any of the following criteria:</p>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies with negative EBITDA</li>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies in the financial sector or in real estate</li>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies whose financial information was not available in the last 4 years</li>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies with revenue smaller than US$10 million</li>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies with an enterprise value lower than US$300 million or higher than US$10 billion </li>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies with a “Enterprise Value / EBITDA” ratio lower than 4x or higher than 23x</li>", unsafe_allow_html=True)
+
+st.markdown("<li color: black;'>Companies whose annual growth rate has been greater than 200%</li>", unsafe_allow_html=True)
 
 # Text -------------------------------------------
 
@@ -191,6 +208,8 @@ def layout(*args):
 
 def footer():
     myargs = [
+        "Our analysis was conducted based on market prices as at December 2019, prior to the outbreak of COVID-19.",
+        br(),
         "Made in ",
         image('https://seeklogo.com/images/U/united-kingdom-flag-logo-1088704B5E-seeklogo.com.png',
                 width=px(20), height=px(15)),
@@ -213,8 +232,8 @@ h1 {
     color: red;
 }
 body {
-    # background-image: url('https://wallpaper.dog/large/10864160.jpg');
-    # background-size: cover;
+    background-image: url('http://nextechinnovation.com/wp-content/uploads/2018/08/7243-01-low-poly-background-16x9-1.jpg');
+    background-size: cover;
 }
 """
 st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)

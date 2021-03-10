@@ -1,41 +1,6 @@
-
-# from htbuilder import HtmlElement, ul, li, br, hr, a, p, img, styles, classes, fonts
-# from htbuilder.units import percent, px
-# from htbuilder.funcs import rgba, rgb
-# from htbuilder import HtmlElement, styles, classes, fonts
-# from htbuilder import H
-# px = H.px
-
-# from htbuilder import HtmlElement, styles, classes, fonts
 from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
 from htbuilder.units import percent, px
 from htbuilder.funcs import rgba, rgb
-
-# from htbuilder import H
-# div = H.div
-# ul = H.ul
-# li = H.li
-# img = H.img
-
-# br = H.br
-# a = H.a
-# p = H.p
-# styles = H.styles
-# classes = H.classes
-# fonts = H.fonts
-# hr = H.hr
-
-# px = H.px
-# percent = H.percent
-# rgba = H.rgba
-# rgb = H.rgb
-
-
-
-
-
-
-
 from Company_Valuation.utils import transfer_roce, transfer_growth_rate, transfer_ebitda_margin, get_revenue_size
 from Company_Valuation.data import get_data
 import streamlit as st
@@ -44,18 +9,14 @@ import pandas as pd
 import joblib
 import time
 
-# to run --> streamlit run app.py
-# todo: 
-    # 1. joblib function 
-    # 2. input into model [x]
-    # 3. heroku [x]
-    # 4. footer 
-    # ... improvement
 
 # Header ---------------------------------------------------------------------------------------------------------------
-st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center; color: grey;'> ... slogan ... </h2>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align: center; color: black;'>Who are we? What we do? How we can bring value?</h4>", unsafe_allow_html=True)
+# st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
+col1, col2, col3 = st.beta_columns(3)
+col2.image('Company_Valuation/clean_data/C V E-logo-2.png', width=200, use_column_width=True)
+
+# st.markdown("<h2 style='text-align: center; color: grey;'> ... slogan ... </h2>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center; color: grey;'>Who we are, What we are doing, How can we bring value?</h4>", unsafe_allow_html=True)
 # Header ---------------------------------------------------------------------------------------------------------------
 
 # Body ------------------------------------------------------------------------------------------------------------------
@@ -68,7 +29,7 @@ def run():
 
     # min_revenue = get_data()['revenue'].min()
     # st.write(min_revenue)
-
+    
     revenue =        st.number_input("Revenue US$m", 100) 
     ebitda =         st.number_input("EBITDA US$m", min_value=0.0) 
     net_debt =       st.number_input("Net Debt US$m")
@@ -107,12 +68,9 @@ def run():
         prediction_lower = prediction * (1 - 0.1) - net_debt
 
         with st.spinner(text='The company is being evaluated ...'):
-            time.sleep(3)
-            st.info('We estimate that this company has an equity range between  {} and  {} US$m.'.format(round(prediction_lower[0], 2), round(prediction_upper[0], 2)))
-
-
-    # st.success("We estimate that this company has an equity value of :")
-    # st.markdown("<h2 style='text-align: center; color: black;'> f"'{prediction}'" </h2>", unsafe_allow_html=True)
+            time.sleep(2)
+            st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
+            st.markdown("<h1 style='text-align: center; color: black;'> {} and  {} US$m </h1>".format(round(prediction_lower[0], 2), round(prediction_upper[0], 2)), unsafe_allow_html=True)
 
 
 
@@ -128,12 +86,12 @@ df_sector = get_select_sector()
 def get_select_box_data():
     print('get_select_box_data called')
     return pd.DataFrame({
-          'Region': ['North American','Europe','Emerging Markets', 'Rest of World']
+          'Region': ['North America','Europe','Emerging Markets', 'Rest of World']
         })
 df_region = get_select_box_data()
 
 def get_region(reagion):
-    if 'North American':
+    if 'North America':
         return 'NA'
     elif 'Europe':
         return 'EU'
@@ -149,7 +107,7 @@ def get_region(reagion):
 # st.markdown("<div class="footer"> <p> style='text-align: center; color: black;'>Company Value Estimator </p></div>", unsafe_allow_html=True)
 
 
-# Others ----------------------------------------------------------------------------------------------------------------
+# Footer ------------------------------------------------------------------------------------------------------------------
 # hide made by streamlit text
 hide_footer_style = """
 <style>
@@ -158,9 +116,7 @@ hide_footer_style = """
 st.markdown(hide_footer_style, unsafe_allow_html=True)
 
 
-
-
-
+# Footer 
 def image(src_as_string, **style):
     return img(src=src_as_string, style=styles(**style))
 
@@ -175,7 +131,7 @@ def layout(*args):
     <style>
       # MainMenu {visibility: hidden;}
       footer {visibility: hidden;}
-     .stApp { bottom: 70px; }
+     .stApp { bottom: 50px; }
     </style>
     """
 
@@ -222,39 +178,36 @@ def layout(*args):
 
 def footer():
     myargs = [
+        "Our estimation is based upon a market approach. We analysed valuation of public companies as at December 2019, prior to the outbreak of the COVID-19.",
+        br(),
         "Made in ",
         image('https://seeklogo.com/images/U/united-kingdom-flag-logo-1088704B5E-seeklogo.com.png',
                 width=px(20), height=px(15)),
-        " with ❤️ by Pierre, Harry & Ian",
+        " by Pierre, Harry & Ian",
         # link("https://twitter.com/ChristianKlose3", "Pierre, Harry & Ian"),
-        # br(),
+        # br(),with ❤️
         # link("https://buymeacoffee.com/chrischross", image('https://i.imgur.com/thJhzOO.png')),
     ]
     layout(*myargs)
 
-
-
-
-
-
-
+# Footer ------------------------------------------------------------------------------------------------------------------
 
 # BACKGROUND
+
+    # background-image: url('https://media.istockphoto.com/vectors/business-candle-chart-trading-on-the-stock-markets-the-index-and-vector-id1071705056?b=1&k=6&m=1071705056&s=612x612&w=0&h=OD6Z71MnK6qUIzjk_sSEjOm8HXZVQnc0IP6c8ibgbVU=');
+    # background-size: cover;
 
 CSS = """
 h1 {
     color: red;
 }
 body {
-    background-image: url('https://cdn.hipwallpaper.com/i/26/43/QDrqXi.jpg');
-    background-size: cover;
-}
-.controls {
-  display: none;
-}
 
+}
 """
 st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
+
 
 if __name__=='__main__': 
     run()

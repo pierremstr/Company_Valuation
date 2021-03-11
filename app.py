@@ -118,7 +118,7 @@ def get_region(reagion):
 
 
 # Text -------------------------------------------
-st.markdown("<p style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies. The estimator below applies a market approach using Machine Learning models to identify patterns in thousand of public companies.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: justify; color: black;'>A common approach to value a company is the market approach. The market approach as a valuation method is used to find the value of a company by comparing it to other similar companies that are publicly traded. This method assesses the value of a business through the application of several ratios of value to financial metrics or non-financial parameters of public companies. The estimator below applies a market approach using Machine Learning models to identify patterns in thousand of public companies. It is designed to value companies with an EBITDA of between US$25 - US$1,400 million.</p>", unsafe_allow_html=True)
 
 run()
 

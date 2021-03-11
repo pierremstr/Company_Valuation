@@ -24,6 +24,9 @@ col2.image('Company_Valuation/clean_data/logo.png', width=500, use_column_width=
 
 # Body ------------------------------------------------------------------------------------------------------------------
 
+
+
+
 def run():
     # st.title(" XXXX ")
     html_temp="""
@@ -31,7 +34,17 @@ def run():
     st.markdown(html_temp, unsafe_allow_html = True) 
     # INPUT  
     
-    
+    # Get region input
+    def get_region(region):
+        if region == 'North America':
+            return 'NA'
+        elif region =='Europe':
+            return 'EU'
+        elif region == 'Emerging Markets':
+            return 'EM'
+        else:
+            return 'ROW'
+        
     revenue =        st.number_input("Revenue US$m", min_value=25.00) 
     ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
 
@@ -39,6 +52,7 @@ def run():
     if ebitda > revenue:
         revenue = ebitda
         st.warning('The ebitda is greater than the revenue. Please re-enter your revenue!')
+
 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (e.g. 0.15 for 15%)") 
@@ -66,15 +80,19 @@ def run():
     # predict when button clicked
     prediction_upper = ""
     prediction_lower = ""
+
     if st.button("Estimate"): 
+
         # add net debt to the prediction
         prediction = model.predict(X)
         prediction_upper = prediction * (1 + 0.1) - net_debt
         prediction_lower = prediction * (1 - 0.1) - net_debt
+ 
+        if ebitda > revenue:
+            st.error('Your EBITDA is higher than revenue!')
 
         with st.spinner(text='The company is being evaluated ...'):
             time.sleep(2)
-
             if prediction_upper < 0:
                 st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value of: </h3>", unsafe_allow_html=True)
                 st.markdown("<h1 style='text-align: center; color: black;'> 0 US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
@@ -84,7 +102,7 @@ def run():
             else:
                 st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
                 st.markdown("<h1 style='text-align: center; color: black;'> {:,} - {:,} US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
-
+    
 
     # func for df with selectable elements -----------------------
 # SECTOR -------
@@ -105,15 +123,7 @@ def get_select_box_data():
 
 df_region = get_select_box_data()
 
-def get_region(reagion):
-    if 'North America':
-        return 'NA'
-    elif 'Europe':
-        return 'EU'
-    elif 'Emerging Markets':
-        return 'EM'
-    else:
-        return 'ROW'
+
 # Body ------------------------------------------------------------------------------------------------------------------
 
 

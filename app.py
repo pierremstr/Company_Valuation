@@ -34,24 +34,15 @@ def run():
     st.markdown(html_temp, unsafe_allow_html = True) 
     # INPUT  
     
-    # Get region input
-    def get_region(region):
-        if region == 'North America':
-            return 'NA'
-        elif region =='Europe':
-            return 'EU'
-        elif region == 'Emerging Markets':
-            return 'EM'
-        else:
-            return 'ROW'
+
         
-    revenue =        st.number_input("Revenue US$m", min_value=25.00) 
+    revenue =        st.number_input("Revenue US$m", min_value=25.00)
     ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
 
     # if ebitda is smaller than revenue -> WARNING
     if ebitda > revenue:
         revenue = ebitda
-        st.warning('The ebitda is greater than the revenue. Please re-enter your revenue!')
+        st.error('The ebitda is greater than the revenue. Please re-enter your values!')
 
 
     net_debt =       st.number_input("Net Debt US$m")
@@ -80,6 +71,7 @@ def run():
     # predict when button clicked
     prediction_upper = ""
     prediction_lower = ""
+
 
     if st.button("Estimate"): 
 
@@ -123,6 +115,16 @@ def get_select_box_data():
 
 df_region = get_select_box_data()
 
+# Get region input
+def get_region(region):
+    if region == 'North America':
+        return 'NA'
+    elif region =='Europe':
+        return 'EU'
+    elif region == 'Emerging Markets':
+        return 'EM'
+    else:
+        return 'ROW'
 
 # Body ------------------------------------------------------------------------------------------------------------------
 

@@ -42,7 +42,7 @@ def run():
     # if ebitda is smaller than revenue -> WARNING
     if ebitda > revenue:
         revenue = ebitda
-        st.error('The ebitda is greater than the revenue. Please re-enter your values!')
+        st.error('The EBITDA is greater than the revenue. Please re-enter your values!')
 
 
     net_debt =       st.number_input("Net Debt US$m")

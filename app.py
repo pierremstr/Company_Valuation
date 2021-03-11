@@ -13,11 +13,8 @@ import time
 
 # Header ---------------------------------------------------------------------------------------------------------------
 st.markdown("<h2 style='text-align: center; color: black;'> Value a company using Machine Learning </h2>", unsafe_allow_html=True)
-# st.markdown("<h1 style='text-align: center; color: black;'>Company Value Estimator</h1>", unsafe_allow_html=True)
 col1, col2, col3 = st.beta_columns(3)
 col2.image('Company_Valuation/clean_data/logo.png', width=500, use_column_width=True)
-# st.image('Company_Valuation/clean_data/C V E-logo-2.png', width=300)
-
 
 # Header ---------------------------------------------------------------------------------------------------------------
 
@@ -38,17 +35,10 @@ def run():
     revenue =        st.number_input("Revenue US$m", min_value=25.00) 
     ebitda =         st.number_input("EBITDA US$m", min_value=25.00, max_value=1_400.00) 
 
+    # if ebitda is smaller than revenue -> WARNING
     if ebitda > revenue:
         revenue = ebitda
         st.warning('The ebitda is greater than the revenue. Please re-enter your revenue!')
-
-    # diff = -1
-    # min_revenue = 25
-    # while diff < 0:
-    # revenue = st.number_input('revenue', min_value=min_revenue)
-    # ebitda = st.number_input('ebitda', min_value=min_revenue)
-    # diff = revenue - ebitda
-    # min_revenue = ebitda
 
     net_debt =       st.number_input("Net Debt US$m")
     revenue_growth = st.number_input("Revenue Growth (e.g. 0.15 for 15%)") 
@@ -90,27 +80,29 @@ def run():
                 st.markdown("<h1 style='text-align: center; color: black;'> 0 US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
             elif (prediction_lower < 0) & (prediction_upper > 0):
                 st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
-                st.markdown("<h1 style='text-align: center; color: black;'> 0 - {} US$m </h1>".format(int(prediction_upper[0])), unsafe_allow_html=True)
+                st.markdown("<h1 style='text-align: center; color: black;'> 0 - {:,} US$m </h1>".format(int(prediction_upper[0])), unsafe_allow_html=True)
             else:
                 st.markdown("<h3 style='text-align: center; color: black;'> We estimate that this company has an equity value between: </h3>", unsafe_allow_html=True)
-                st.markdown("<h1 style='text-align: center; color: black;'> {} - {} US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
+                st.markdown("<h1 style='text-align: center; color: black;'> {:,} - {:,} US$m </h1>".format(int(prediction_lower[0]), int(prediction_upper[0])), unsafe_allow_html=True)
 
 
-
-# func for df with selectable elements -----------------------
+    # func for df with selectable elements -----------------------
 # SECTOR -------
 def get_select_sector():
     print('get_select_sector called')
     return pd.DataFrame({
           'Sector': ['Consumer', 'Communication Services', 'Utilities', 'Industrials', 'Materials', 'Information Technology', 'Healthcare', 'Energy']
         })
+
 df_sector = get_select_sector()
+
 # REGION ------
 def get_select_box_data():
     print('get_select_box_data called')
     return pd.DataFrame({
           'Region': ['North America','Europe','Emerging Markets', 'Rest of World']
         })
+
 df_region = get_select_box_data()
 
 def get_region(reagion):
@@ -122,10 +114,7 @@ def get_region(reagion):
         return 'EM'
     else:
         return 'ROW'
-
-
 # Body ------------------------------------------------------------------------------------------------------------------
-
 
 
 # Text -------------------------------------------
@@ -161,7 +150,8 @@ st.markdown("<li color: black;'>Companies whose annual growth rate has been grea
 
 # Text -------------------------------------------
 
-# st.markdown("<div class="footer"> <p> style='text-align: center; color: black;'>Company Value Estimator </p></div>", unsafe_allow_html=True)
+
+
 
 
 # Footer ------------------------------------------------------------------------------------------------------------------
